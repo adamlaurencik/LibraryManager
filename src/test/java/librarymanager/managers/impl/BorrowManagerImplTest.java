@@ -6,7 +6,9 @@
 package librarymanager.managers.impl;
 
 
+import librarymanager.entities.Borrow;
 import org.junit.Before;
+import org.junit.Test;
 
 /**
  *
@@ -21,5 +23,11 @@ public class BorrowManagerImplTest {
     public void setUp() {
         manager= new BorrowManagerImpl();
     }
+    
+    @Test
+    public void createBorrowWithWrongValues(){
+        Borrow borrow = new Borrow();
+    }
+ 
     
 }

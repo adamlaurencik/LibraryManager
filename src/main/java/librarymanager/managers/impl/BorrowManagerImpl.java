@@ -7,36 +7,53 @@ package librarymanager.managers.impl;
 
 import java.util.List;
 import librarymanager.entities.Book;
-import librarymanager.managers.interfaces.BookManager;
+import librarymanager.entities.Borrow;
+import librarymanager.entities.Customer;
+import librarymanager.managers.interfaces.BorrowManager;
 
 /**
  *
  * @author xlauren1
  */
-public class BorrowManagerImpl implements BookManager {
+public class BorrowManagerImpl implements BorrowManager {
 
     @Override
-    public void createBook(Book book) {
+    public void createBorrow(Borrow borrow) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void updateBook(Book book) {
+    public void updateBorrow(Borrow borrow) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void deleteBook(Book book) {
+    public void deleteBorrow(Borrow borrow) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Book findBookById(long id) {
+    public Borrow findBorrowById(long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Book> listAllBooks() {
+    public List<Borrow> findBorrowForCustomer(Customer customer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Book> findBorrowForBook(Book book) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Book> listBorrowedBooks() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean isBorrowed(Book book) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
