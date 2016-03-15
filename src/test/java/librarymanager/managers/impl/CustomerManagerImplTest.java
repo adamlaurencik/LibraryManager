@@ -5,6 +5,11 @@
  */
 package librarymanager.managers.impl;
 
+import static junit.framework.Assert.assertEquals;
+import librarymanager.entities.Customer;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,6 +28,47 @@ public class CustomerManagerImplTest {
     
     @Test
     public void updateCustomer(){
+        Customer customer1= new Customer();
+        customer1.setName("Peter");
+        customer1.setSurname("Lopata");
+        customer1.setAddress("Ulice pracovniku 658/17 Brno");
+        customer1.setPhone("+421915385002");
+        manager.createCustomer(customer1);
+        long customerId = customer1.getId();
+        
+        customer1.setName("Igor");
+        manager.updateCustomer(customer1);
+        assertThat(customer1.getName(),is(equalTo("Igor")));
+        assertThat(customer1.getSurname(),is(equalTo("Lopata")));
+        assertThat(customer1.getAddress(),is(equalTo("Ulice pracovniku 658/17 Brno")));
+        assertThat(customer1.getPhone(),is(equalTo("+421915385002")));
+        
+        customer1.setSurname("Motyka");
+        manager.updateCustomer(customer1);
+        assertThat(customer1.getName(),is(equalTo("Igor")));
+        assertThat(customer1.getSurname(),is(equalTo("Motyka")));
+        assertThat(customer1.getAddress(),is(equalTo("Ulice pracovniku 658/17 Brno")));
+        assertThat("Customer phone cannot change after surname update",customer1.getPhone(),is(equalTo("+421915385002")));
+        
+        customer1.setAddress("Praha");
+        manager.updateCustomer(customer1);
+        assertThat(customer1.getName(),is(equalTo("Igor")));
+        assertThat(customer1.getSurname(),is(equalTo("Motyka")));
+        assertThat(customer1.getAddress(),is(equalTo("Praha")));
+        assertThat(customer1.getPhone(),is(equalTo("+421915385002")));
+        
+        customer1.setPhone("+420915689552");
+        manager.updateCustomer(customer1);    
+        assertThat(customer1.getName(),is(equalTo("Igor")));
+        assertThat(customer1.getSurname(),is(equalTo("Motyka")));
+        assertThat(customer1.getAddress(),is(equalTo("Praha")));
+        assertThat(customer1.getPhone(),is(equalTo("+420915689552")));
+        
+        
+        assertEquals(customerId,customer1.getId());
+        assertEquals(manager.listAllCustomers().size(),1);
+        
+        
         
     }
 }
