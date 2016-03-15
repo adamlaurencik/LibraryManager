@@ -23,6 +23,7 @@ public interface BorrowManager {
     public List<Borrow> findBorrowForCustomer(Customer customer);
     public List<Book> findBorrowForBook(Book book);
     public List<Book> listBorrowedBooks();
+    public List<Book> listAllBorrows();
     public boolean isBorrowed(Book book);
     
 }
