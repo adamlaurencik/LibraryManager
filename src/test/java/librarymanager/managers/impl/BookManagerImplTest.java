@@ -12,6 +12,8 @@ import java.util.List;
 import librarymanager.entities.Book;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,8 +31,6 @@ public class BookManagerImplTest {
     }
 
     // Lauro spravil list all book 
-    
-    //Marek
     @Test
     public void listAllBooks() {
         assertTrue(manager.listAllBooks().isEmpty());
@@ -63,7 +63,37 @@ public class BookManagerImplTest {
         manager.deleteBook(book1);
         assertEquals(manager.listAllBooks().size(),2);
     }
-    
+        
+    //Marek
+    @Test
+    public void deleteBook() {
+        assertTrue(manager.listAllBooks().isEmpty());
+
+        Book first = newBook(1, "book1", "someone", "isbn");
+        Book second = newBook(2, "book2", "someone", "isbn2");
+
+        manager.createBook(first);
+        manager.createBook(second);
+
+        assertEquals(manager.listAllBooks().size(), 2);
+        assertNotNull(manager.findBookById(first.getId()));
+        assertNotNull(manager.findBookById(second.getId()));
+
+        manager.deleteBook(second);
+
+        assertEquals(manager.listAllBooks().size(), 1);
+        assertNull(manager.findBookById(second.getId()));
+        assertNotNull(manager.findBookById(first.getId()));
+    }
+
+    private static Book newBook(long id, String name, String author, String isbn) {
+        Book book = new Book();
+        book.setAuthor(author);
+        book.setId(id);
+        book.setIsbn(isbn);
+        book.setName(name);
+        return book;
+   }
     
 
     private static Comparator<Book> idComparator = new Comparator<Book>() {
