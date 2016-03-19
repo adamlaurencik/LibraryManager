@@ -19,7 +19,6 @@ import static org.junit.Assert.*;
  * @author Adam Laurenčík
  */
 public class BorrowManagerImplTest {
-    
 
     private BorrowManagerImpl manager;
     private BookManagerImpl bookManager;
@@ -35,6 +34,18 @@ public class BorrowManagerImplTest {
       @Test(expected = IllegalArgumentException.class)
     public void testDeleteBorrowWithNull() throws Exception {
         manager.deleteBorrow(null);
+    }
+
+    private static Borrow newBorrow(long id, Book book, Customer customer,
+            LocalDate borrowDate, LocalDate returnDate) {
+        Borrow borrow = new Borrow();
+        borrow.setBook(book);
+        borrow.setCustomer(customer);
+        borrow.setId(id);
+        borrow.setBorrowDate(borrowDate);
+        borrow.setReturnDate(returnDate);
+        borrow.setReturned(false);
+        return borrow;
     }
     
       @Test(expected = IllegalArgumentException.class)

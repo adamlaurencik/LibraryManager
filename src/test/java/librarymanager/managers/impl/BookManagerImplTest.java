@@ -28,6 +28,9 @@ public class BookManagerImplTest {
         manager = new BookManagerImpl();
     }
 
+    // Lauro spravil list all book 
+    
+    //Marek
     @Test
     public void listAllBooks() {
         assertTrue(manager.listAllBooks().isEmpty());
