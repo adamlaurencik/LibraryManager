@@ -18,6 +18,6 @@ public interface BookManager {
     public void createBook(Book book) throws FailureException;
     public void updateBook(Book book) throws FailureException;
     public void deleteBook(Book book) throws FailureException;
-    public Book findBookById(long id) throws FailureException;
+    public Book findBookById(Long id) throws FailureException;
     public List<Book> listAllBooks() throws FailureException;
 }

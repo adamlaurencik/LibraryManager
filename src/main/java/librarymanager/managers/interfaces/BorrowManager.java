@@ -19,7 +19,7 @@ public interface BorrowManager {
     public void createBorrow(Borrow borrow);
     public void updateBorrow(Borrow borrow);
     public void deleteBorrow(Borrow borrow);
-    public Borrow findBorrowById(long id);
+    public Borrow findBorrowById(Long id);
     public List<Borrow> findBorrowForCustomer(Customer customer);
     public List<Book> findBorrowForBook(Book book);
     public List<Book> listBorrowedBooks();

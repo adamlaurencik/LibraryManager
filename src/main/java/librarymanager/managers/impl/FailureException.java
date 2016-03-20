@@ -4,7 +4,7 @@ package librarymanager.managers.impl;
  *
  * @author Marek Janco
  */
-public class FailureException extends Exception {
+public class FailureException extends RuntimeException {
 
     public FailureException() {
         super();

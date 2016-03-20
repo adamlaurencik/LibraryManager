@@ -17,6 +17,6 @@ public interface CustomerManager {
   public void createCustomer(Customer customer);
     public void updateCustomer(Customer customer);
     public void deleteCustomer(Customer customer);
-    public Customer findCustomerById(long id);
+    public Customer findCustomerById(Long id);
     public List<Customer> listAllCustomers();
 }

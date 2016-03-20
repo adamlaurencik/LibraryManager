@@ -31,7 +31,7 @@ public class CustomerManagerImpl implements CustomerManager {
     }
 
     @Override
-    public Customer findCustomerById(long id) {
+    public Customer findCustomerById(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
