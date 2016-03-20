@@ -10,7 +10,7 @@ package librarymanager.entities;
  * @author xlauren1
  */
 public class Book {
-    private long id;
+    private Long id;
     private String name;
     private String author;
     private String isbn;
@@ -22,7 +22,7 @@ public class Book {
         return author;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -38,7 +38,7 @@ public class Book {
         this.author = author;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

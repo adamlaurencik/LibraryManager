@@ -7,6 +7,7 @@ package librarymanager.managers.interfaces;
 
 import java.util.List;
 import librarymanager.entities.Book;
+import librarymanager.managers.impl.FailureException;
 
 /**
  *
@@ -14,9 +15,9 @@ import librarymanager.entities.Book;
  */
 public interface BookManager {
     
-    public void createBook(Book book);
-    public void updateBook(Book book);
-    public void deleteBook(Book book);
-    public Book findBookById(long id);
-    public List<Book> listAllBooks();
+    public void createBook(Book book) throws FailureException;
+    public void updateBook(Book book) throws FailureException;
+    public void deleteBook(Book book) throws FailureException;
+    public Book findBookById(long id) throws FailureException;
+    public List<Book> listAllBooks() throws FailureException;
 }

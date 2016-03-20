@@ -24,7 +24,7 @@ import org.junit.Test;
 public class BookManagerImplTest {
 
     private BookManagerImpl manager;
-
+    
     @Before
     public void setUp() {
         manager = new BookManagerImpl();
