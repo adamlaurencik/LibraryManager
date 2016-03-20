@@ -10,7 +10,7 @@ package librarymanager.entities;
  * @author xlauren1
  */
 public class Customer {
-    private long id;
+    private Long id;
     private String name;
     private String surname;
     private String address;
@@ -23,7 +23,7 @@ public class Customer {
         return address;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -43,7 +43,7 @@ public class Customer {
         this.address = address;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
