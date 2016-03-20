@@ -13,7 +13,7 @@ import java.time.LocalDate;
  */
 public class Borrow {
     
-    private long id;
+    private Long id;
     private Book book;
     private Customer customer;
     private LocalDate borrowDate;
@@ -35,7 +35,7 @@ public class Borrow {
         return customer;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -59,7 +59,7 @@ public class Borrow {
         this.customer = customer;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
