@@ -5,6 +5,8 @@
  */
 package librarymanager.entities;
 
+import java.util.Objects;
+
 /**
  *
  * @author xlauren1
@@ -49,5 +51,28 @@ public class Book {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.getClass()!=this.getClass()){
+            return false;
+        }
+        Book comparedBook= (Book) obj;
+        return(comparedBook.id.equals(this.id));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 59 * hash + Objects.hashCode(this.id);
+        hash = 59 * hash + Objects.hashCode(this.name);
+        hash = 59 * hash + Objects.hashCode(this.author);
+        hash = 59 * hash + Objects.hashCode(this.isbn);
+        return hash;
+    }
+
+
+    
+    
     
 }
