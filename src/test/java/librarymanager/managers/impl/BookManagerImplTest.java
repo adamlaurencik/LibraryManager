@@ -5,11 +5,16 @@
  */
 package librarymanager.managers.impl;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import javax.sql.DataSource;
 import librarymanager.entities.Book;
+import org.apache.derby.jdbc.EmbeddedDataSource;
+import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
@@ -24,10 +29,33 @@ import org.junit.Test;
 public class BookManagerImplTest {
 
     private BookManagerImpl manager;
+    private DataSource dataSource;
     
     @Before
-    public void setUp() {
-        manager = new BookManagerImpl();
+    public void setUp() throws SQLException{
+        dataSource=prepareDataSource();
+        try(Connection connection = dataSource.getConnection()){ 
+            connection.prepareStatement("CREATE TABLE BOOK( " +
+           "ID BIGINT NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY, " +
+           "NAME VARCHAR(50), " +
+           "AUTHOR VARCHAR(50), " +
+           "ISBN VARCHAR(50))").executeUpdate();
+        }
+        manager = new BookManagerImpl(dataSource);
+    }
+    
+    @After
+    public void tearDown() throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.prepareStatement("DROP TABLE BOOK").executeUpdate();
+        }
+    }
+    
+    private static DataSource prepareDataSource() throws SQLException{
+       EmbeddedDataSource ds = new EmbeddedDataSource();
+       ds.setDatabaseName("memory:bookManagerImpl-test");
+       ds.setCreateDatabase("create");
+       return ds;
     }
 
     // Lauro spravil list all book 
@@ -61,35 +89,13 @@ public class BookManagerImplTest {
         assertEquals(expected,result);
         
         manager.deleteBook(book1);
-        assertEquals(manager.listAllBooks().size(),2);
-    }
-        
-    //Marek
-    @Test
-    public void deleteBook() {
-        assertTrue(manager.listAllBooks().isEmpty());
-
-        Book first = newBook(1, "book1", "someone", "isbn");
-        Book second = newBook(2, "book2", "someone", "isbn2");
-
-        manager.createBook(first);
-        manager.createBook(second);
-
-        assertEquals(manager.listAllBooks().size(), 2);
-        assertNotNull(manager.findBookById(first.getId()));
-        assertNotNull(manager.findBookById(second.getId()));
-
-        manager.deleteBook(second);
-
-        assertEquals(manager.listAllBooks().size(), 1);
-        assertNull(manager.findBookById(second.getId()));
-        assertNotNull(manager.findBookById(first.getId()));
+        assertEquals(manager.listAllBooks().size(),1);
     }
 
-    private static Book newBook(long id, String name, String author, String isbn) {
+
+    private static Book newBook(String name, String author, String isbn) {
         Book book = new Book();
         book.setAuthor(author);
-        book.setId(id);
         book.setIsbn(isbn);
         book.setName(name);
         return book;
