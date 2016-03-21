@@ -34,7 +34,7 @@ public class CustomerManagerImplTest {
         customer1.setAddress("Ulice pracovniku 658/17 Brno");
         customer1.setPhone("+421915385002");
         manager.createCustomer(customer1);
-        long customerId = customer1.getId();
+        Long customerId = customer1.getId();
         
         customer1.setName("Igor");
         manager.updateCustomer(customer1);

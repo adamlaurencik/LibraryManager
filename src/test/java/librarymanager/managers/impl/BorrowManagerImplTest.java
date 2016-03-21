@@ -6,10 +6,15 @@
 package librarymanager.managers.impl;
 
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import javax.sql.DataSource;
 import librarymanager.entities.Book;
 import librarymanager.entities.Borrow;
 import librarymanager.entities.Customer;
+import org.apache.derby.jdbc.EmbeddedDataSource;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -20,20 +25,43 @@ import static org.junit.Assert.*;
  */
 public class BorrowManagerImplTest {
 
+    private DataSource dataSource;
     private BorrowManagerImpl manager;
     private BookManagerImpl bookManager;
     private CustomerManagerImpl customerManager;
     
     @Before
-    public void setUp() {
+    public void setUp() throws SQLException {
+       dataSource=prepareDataSource();
+       try (Connection connection = dataSource.getConnection()) {
+            connection.prepareStatement("CREATE TABLE BOOK( " +
+           "ID BIGINT NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY, " +
+           "NAME VARCHAR(50), " +
+           "AUTHOR VARCHAR(50), " +
+           "ISBN VARCHAR(50))").executeUpdate();
+        }
         manager= new BorrowManagerImpl();
-        bookManager= new BookManagerImpl();
+        bookManager= new BookManagerImpl(dataSource);
         customerManager= new CustomerManagerImpl();
     }
     
       @Test(expected = IllegalArgumentException.class)
     public void testDeleteBorrowWithNull() throws Exception {
         manager.deleteBorrow(null);
+    }
+    
+    @After
+    public void tearDown() throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.prepareStatement("DROP TABLE BOOK").executeUpdate();
+        }
+    }
+    
+    private static DataSource prepareDataSource() throws SQLException{
+       EmbeddedDataSource ds = new EmbeddedDataSource();
+       ds.setDatabaseName("memory:bookManagerImpl-test");
+       ds.setCreateDatabase("create");
+       return ds;
     }
 
     private static Borrow newBorrow(long id, Book book, Customer customer,
