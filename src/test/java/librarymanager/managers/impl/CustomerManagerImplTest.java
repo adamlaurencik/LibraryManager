@@ -20,10 +20,12 @@ import org.junit.Test;
 public class CustomerManagerImplTest {
     
     private CustomerManagerImpl manager;
+    private Customer customer; 
     
     @Before
     public void setUp() {
         manager = new CustomerManagerImpl();
+        customer = newCustomer("Name", "Surname", "address", "+421...");
     }
     
     @Test
@@ -69,11 +71,64 @@ public class CustomerManagerImplTest {
         assertEquals(manager.listAllCustomers().size(),1);
     }
     
-    private static Customer newCustomer(long id, String name, String surname,
+    @Test(expected = IllegalArgumentException.class)
+    public void testUpdateCustomerWithNull() throws Exception {
+        manager.updateCustomer(null);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testUpdateCustomersIdWithNull() throws Exception {
+        manager.createCustomer(customer);
+        
+        customer.setId(null);
+        manager.updateCustomer(customer);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testUpdateCustomersId() throws Exception {
+        manager.createCustomer(customer);
+        Long id = customer.getId();
+        
+        customer.setId(id - 1);
+        manager.updateCustomer(customer);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testUpdateCustomersNameWithNull() throws Exception {
+        manager.createCustomer(customer);
+        
+        customer.setName(null);
+        manager.updateCustomer(customer);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testUpdateCustomersSurnameWithNull() throws Exception {
+        manager.createCustomer(customer);
+        
+        customer.setSurname(null);
+        manager.updateCustomer(customer);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testUpdateCustomersAddressWithNull() throws Exception {
+        manager.createCustomer(customer);
+        
+        customer.setAddress(null);
+        manager.updateCustomer(customer);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testUpdateCustomersPhoneWithNull() throws Exception {
+        manager.createCustomer(customer);
+        
+        customer.setPhone(null);
+        manager.updateCustomer(customer);
+    }
+    
+    private static Customer newCustomer(String name, String surname,
             String address, String phone) {
         Customer customer = new Customer();
         customer.setAddress(address);
-        customer.setId(id);
         customer.setName(name);
         customer.setPhone(phone);
         customer.setSurname(surname);

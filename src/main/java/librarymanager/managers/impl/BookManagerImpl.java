@@ -171,7 +171,7 @@ public class BookManagerImpl implements BookManager {
 
                 return book;
             } else {
-                throw new NotFoundException("book was not found in database");
+                return null;
             }
 
         } catch (SQLException ex) {
