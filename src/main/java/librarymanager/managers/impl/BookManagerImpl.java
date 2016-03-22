@@ -54,29 +54,29 @@ public class BookManagerImpl implements BookManager {
             }
 
             ResultSet rs = st.getGeneratedKeys();
-            book.setId(getKey(rs, book));
+            book.setId(getKey(rs));
 
         } catch (SQLException ex) {
             throw new FailureException("error in inserting: " + book, ex);
         }
     }
 
-    public void validate(Book book) throws IllegalArgumentException {
+    private void validate(Book book) throws IllegalArgumentException {
         if (book == null) {
-            throw new IllegalArgumentException("grave is null");
+            throw new IllegalArgumentException("book is null");
         }
-        if (book.getName() == null) {
-            throw new IllegalArgumentException("grave is null");
+        if (book.getName() == null || book.getName().equals("")) {
+            throw new IllegalArgumentException("book name is null or empty");
         }
-        if (book.getIsbn() == null) {
-            throw new IllegalArgumentException("grave column is negative number");
+        if (book.getIsbn() == null || book.getIsbn().equals("")) {
+            throw new IllegalArgumentException("book isbn is null or empty");
         }
-        if (book.getAuthor() == null) {
-            throw new IllegalArgumentException("grave row is negative number");
+        if (book.getAuthor() == null || book.getAuthor().equals("")) {
+            throw new IllegalArgumentException("book author is null or empty");
         }
     }
 
-    public Long getKey(ResultSet rs, Book book) throws FailureException, SQLException {
+    public Long getKey(ResultSet rs) throws FailureException, SQLException {
         if (rs.next()) {
             if (rs.getMetaData().getColumnCount() != 1) {
                 throw new FailureException(" wrong key fields count: " + rs.getMetaData().getColumnCount());
@@ -120,7 +120,7 @@ public class BookManagerImpl implements BookManager {
                         + "more than 1 row, was " + count);
             }
         } catch (SQLException ex) {
-            throw new FailureException("error when updating book, " + book);
+            throw new FailureException("error when updating book, " + book, ex);
         }
     }
 
