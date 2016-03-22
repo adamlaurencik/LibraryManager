@@ -40,10 +40,28 @@ public class BorrowManagerImplTest {
                     + "NAME VARCHAR(50), "
                     + "AUTHOR VARCHAR(50), "
                     + "ISBN VARCHAR(50))").executeUpdate();
+            
+            connection.prepareStatement("CREATE TABLE CUSTOMER( "
+                    + "ID BIGINT NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY, "
+                    + "NAME VARCHAR(25), "
+                    + "SURNAME VARCHAR(25), "
+                    + "ADDRESS VARCHAR(75), "
+                    + "PHONE VARCHAR(50))").executeUpdate();
+            
+            connection.prepareStatement("CREATE TABLE BORROW( "
+                    + "ID BIGINT NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY, "
+                    + "BOOK_ID BIGINT NOT NULL, "
+                    + "CUSTOMER_ID BIGINT NOT NULL, "
+                    + "BORROW_DATE DATE, "
+                    + "RETURN_DATE DATE, "
+                    + "RETURNED BOOLEAN, "
+                    + "FOREIGN KEY(BOOK_ID) REFERENCES BOOK(ID), "
+                    + "FOREIGN KEY(CUSTOMER_ID) REFERENCES CUSTOMER(ID))").executeUpdate();
+            
         }
-        manager = new BorrowManagerImpl();
         bookManager = new BookManagerImpl(dataSource);
-        customerManager = new CustomerManagerImpl();
+        customerManager = new CustomerManagerImpl(dataSource);
+                manager = new BorrowManagerImpl(dataSource,bookManager,customerManager);
 
         book1.setName("Effective Java");
         book1.setAuthor("Joshua Bloch");
