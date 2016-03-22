@@ -21,9 +21,9 @@ public interface BorrowManager {
     public void deleteBorrow(Borrow borrow);
     public Borrow findBorrowById(Long id);
     public List<Borrow> findBorrowForCustomer(Customer customer);
-    public List<Book> findBorrowForBook(Book book);
+    public List<Borrow> findBorrowForBook(Book book);
     public List<Book> listBorrowedBooks();
-    public List<Book> listAllBorrows();
+    public List<Borrow> listAllBorrows();
     public boolean isBorrowed(Book book);
     
 }
