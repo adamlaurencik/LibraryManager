@@ -81,7 +81,9 @@ public class BorrowManagerImplTest {
     @After
     public void tearDown() throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
+            connection.prepareStatement("DROP TABLE BORROW").executeUpdate();
             connection.prepareStatement("DROP TABLE BOOK").executeUpdate();
+            connection.prepareStatement("DROP TABLE CUSTOMER").executeUpdate();
         }
     }
 
@@ -165,7 +167,7 @@ public class BorrowManagerImplTest {
         borrow1.setBook(book1);
         borrow1.setCustomer(customer1);
         borrow1.setBorrowDate(LocalDate.now());
-        borrow1.setReturnDate(LocalDate.MAX);
+        borrow1.setReturnDate(LocalDate.now().plusMonths(1));
         borrow1.setReturned(false);
 
         Book book2 = new Book();
@@ -179,13 +181,13 @@ public class BorrowManagerImplTest {
         customer2.setSurname("Tuma");
         customer2.setAddress("Dubodiel");
         customer2.setPhone("+421918948188");
-        customerManager.createCustomer(customer1);
+        customerManager.createCustomer(customer2);
 
         Borrow borrow2 = new Borrow();
         borrow2.setBook(book2);
         borrow2.setCustomer(customer2);
         borrow2.setBorrowDate(LocalDate.now());
-        borrow2.setReturnDate(LocalDate.MAX);
+        borrow2.setReturnDate(LocalDate.now().plusMonths(1));
         borrow2.setReturned(false);
 
         manager.createBorrow(borrow1);

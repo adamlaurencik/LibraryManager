@@ -53,8 +53,8 @@ public class BorrowManagerImpl implements BorrowManager {
 
             st.setLong(1, borrow.getBook().getId());
             st.setLong(2, borrow.getCustomer().getId());
-            st.setDate(3,java.sql.Date.valueOf( borrow.getBorrowDate()));
-            st.setDate(4,java.sql.Date.valueOf( borrow.getReturnDate()));
+            st.setDate(3,java.sql.Date.valueOf(borrow.getBorrowDate()));
+            st.setDate(4,java.sql.Date.valueOf(borrow.getReturnDate()));
             st.setBoolean(5,false);
 
             int addedRows = st.executeUpdate();
@@ -300,8 +300,8 @@ public class BorrowManagerImpl implements BorrowManager {
         Borrow borrow = new Borrow();
        
         borrow.setId(rs.getLong("ID"));
-        borrow.setBook(bookManager.findBookById(rs.getLong("CUSTOMER_ID")));
-        borrow.setCustomer(customerManager.findCustomerById(rs.getLong("AUTHOR")));
+        borrow.setBook(bookManager.findBookById(rs.getLong("BOOK_ID")));
+        borrow.setCustomer(customerManager.findCustomerById(rs.getLong("CUSTOMER_ID")));
         borrow.setBorrowDate(rs.getDate("BORROW_DATE").toLocalDate());
         borrow.setReturnDate(rs.getDate("RETURN_DATE").toLocalDate());
         borrow.setReturned(rs.getBoolean("RETURNED"));

@@ -6,6 +6,7 @@
 package librarymanager.entities;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  *
@@ -70,6 +71,24 @@ public class Borrow {
     public void setReturned(boolean returned) {
         this.returned = returned;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.getClass()!=this.getClass()){
+            return false;
+        }
+        Borrow borrowObj= (Borrow) obj;
+        return (borrowObj.id.equals(this.id));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 13 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+    
+    
     
     
 }
