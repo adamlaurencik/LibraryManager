@@ -106,10 +106,10 @@ public class BookManagerImpl implements BookManager {
                 PreparedStatement st = connection.prepareStatement(
                         "UPDATE BOOK SET NAME = ?, AUTHOR = ?, ISBN = ? WHERE ID = ?")) {
 
-            st.setLong(1, book.getId());
-            st.setString(2, book.getName());
-            st.setString(3, book.getAuthor());
-            st.setString(4, book.getIsbn());
+            st.setString(1, book.getName());
+            st.setString(2, book.getAuthor());
+            st.setString(3, book.getIsbn());
+            st.setLong(4, book.getId());
 
             int count = st.executeUpdate();
 

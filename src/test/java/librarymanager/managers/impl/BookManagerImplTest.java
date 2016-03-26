@@ -126,6 +126,45 @@ public class BookManagerImplTest {
         assertNull(manager.findBookById(second.getId()));
         assertNotNull(manager.findBookById(first.getId()));
     }
+    
+    
+    @Test
+    public void updateBook(){
+        assertTrue(manager.listAllBooks().isEmpty());
+        
+        Book book=newBook("book", "someone", "isb");
+        manager.createBook(book);
+        assertTrue(manager.listAllBooks().size()==1);
+        book.setName("book2");
+        manager.updateBook(book);        
+        Book bookFromDb=manager.findBookById(book.getId());
+        
+        assertEquals(bookFromDb, book);
+        
+    }
+    
+   @Test(expected = IllegalArgumentException.class)
+    public void testUpdateWithNoId() throws Exception {
+        Book noIdBook= newBook("Book", "author", "isbn");
+        manager.updateBook(noIdBook);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testUpdateWithNull() throws Exception {
+        manager.updateBook(null);
+    }
+    
+    
+    @Test
+    public void findBookById(){
+        assertNull(manager.findBookById(new Long(1)));
+        
+        Book book = newBook("book", "author", "isbn");
+        manager.createBook(book);
+        
+        Book bookFromDb=manager.findBookById(book.getId());
+        assertEquals(bookFromDb, book);
+    }
 
     private static Book newBook(String name, String author, String isbn) {
         Book book = new Book();

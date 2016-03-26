@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Fri Mar 25 23:55:14 CET 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0153-affd-1fa9-000006bc2a08 
+Sat Mar 26 13:39:05 CET 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0153-b2ef-5d74-000006ba9250 
 on database directory memory:C:\SKOLA\JAVA\LibraryManager\bookManagerImpl-test with class loader sun.misc.Launcher$AppClassLoader@75b84c92 
 Loaded from file:/C:/Users/Adam/.m2/repository/org/apache/derby/derby/10.12.1.1/derby-10.12.1.1.jar
 java.vendor=Oracle Corporation
@@ -12,8 +12,8 @@ os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Fri Mar 25 23:55:16 CET 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance b621c22b-0153-affd-1fa9-000006bc2a08 
+Sat Mar 26 13:39:09 CET 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance 2c340260-0153-b2ef-5d74-000006ba9250 
 on database directory memory:C:\SKOLA\JAVA\LibraryManager\customerManagerImpl-test with class loader sun.misc.Launcher$AppClassLoader@75b84c92 
 Loaded from file:/C:/Users/Adam/.m2/repository/org/apache/derby/derby/10.12.1.1/derby-10.12.1.1.jar
 java.vendor=Oracle Corporation

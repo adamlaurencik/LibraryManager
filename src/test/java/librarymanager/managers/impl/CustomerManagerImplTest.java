@@ -7,8 +7,9 @@ package librarymanager.managers.impl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import javax.sql.DataSource;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -19,7 +20,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import org.junit.After;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -159,10 +162,72 @@ public class CustomerManagerImplTest {
     @Test(expected = IllegalArgumentException.class)
     public void testUpdateCustomersPhoneWithNull() throws Exception {
         manager.createCustomer(customer);
-        
         customer.setPhone(null);
         manager.updateCustomer(customer);
     }
+    
+    @Test
+    public void deleteCustomer(){
+       Customer customer1 = newCustomer("Jozo", "Raz", "Brno", "000");
+       manager.createCustomer(customer1);
+       
+       Customer customer2 = newCustomer("Milan", "Fero", "Praha", "0320");
+       manager.createCustomer(customer2);
+       
+       manager.deleteCustomer(customer1);
+       
+       assertTrue(manager.listAllCustomers().size()==1);
+       
+       assertEquals(customer2, manager.listAllCustomers().get(0));
+       
+       manager.deleteCustomer(customer2);
+       
+       assertTrue(manager.listAllCustomers().isEmpty());
+       
+    }
+    
+    @Test
+    public void listAllCustomers(){
+       Customer customer1 = newCustomer("Jozo", "Raz", "Brno", "000");
+       manager.createCustomer(customer1);
+       
+       assertTrue(manager.listAllCustomers().size()==1);
+       
+       assertEquals(customer1, manager.listAllCustomers().get(0));
+       
+       Customer customer2 = newCustomer("Milan", "Fero", "Praha", "0320");
+       manager.createCustomer(customer2);
+       
+       assertTrue(manager.listAllCustomers().size()==2);
+       
+       List<Customer> expected=new ArrayList<>();
+       expected.add(customer1);
+       expected.add(customer2);
+        expected.sort(idComparator);
+       
+      List<Customer> returned = manager.listAllCustomers();
+      returned.sort(idComparator);
+      
+      assertEquals(expected, returned);
+    }
+    
+    @Test
+    public void findCustomerById(){
+        assertNull(manager.findCustomerById(new Long(1)));
+        
+        Customer customer = newCustomer("customer", "surname", "Praha","+421");
+        manager.createCustomer(customer);
+        
+        Customer customerFromDb=manager.findCustomerById(customer.getId());
+        assertEquals(customerFromDb, customer);
+    }
+    
+  private static Comparator<Customer> idComparator = new Comparator<Customer>() {
+        @Override
+        public int compare(Customer o1, Customer o2) {
+            return Long.compare(o1.getId(), o2.getId());
+        }
+    };
     
     private static Customer newCustomer(String name, String surname,
             String address, String phone) {
