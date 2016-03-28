@@ -56,7 +56,7 @@ public class BorrowManagerImpl implements BorrowManager {
             st.setLong(2, borrow.getCustomer().getId());
             st.setDate(3, Date.valueOf(borrow.getBorrowDate()));
             st.setDate(4, Date.valueOf(borrow.getReturnDate()));
-            st.setBoolean(5, false);
+            st.setBoolean(5, borrow.isReturned());
 
             int addedRows = st.executeUpdate();
 
@@ -122,10 +122,10 @@ public class BorrowManagerImpl implements BorrowManager {
 
         try (Connection connection = dataSource.getConnection();
                 PreparedStatement st = connection.prepareStatement(
-                        "UPDATE BORROW SET book_id = ?, customer_id = ?, borrow_date = ? return_date, returned= ? WHERE ID = ?")) {
+                        "UPDATE BORROW SET book_id = ?, customer_id = ?, borrow_date = ?, return_date= ?, returned= ? WHERE ID = ?")) {
 
-            st.setLong(1, borrow.getId());
-            st.setLong(2, borrow.getId());
+            st.setLong(1, borrow.getBook().getId());
+            st.setLong(2, borrow.getCustomer().getId());
             st.setDate(3, java.sql.Date.valueOf(borrow.getBorrowDate()));
             st.setDate(4, java.sql.Date.valueOf(borrow.getReturnDate()));
             st.setBoolean(5, borrow.isReturned());
@@ -257,7 +257,7 @@ public class BorrowManagerImpl implements BorrowManager {
     public List<Book> listBorrowedBooks() {
         try (Connection connection = dataSource.getConnection();
                 PreparedStatement st = connection.prepareStatement(
-                        "SELECT DISTINCT(BOOK_ID) FROM BORROW")) {
+                        "SELECT book_id FROM BORROW WHERE RETURNED=FALSE")) {
             ResultSet rs = st.executeQuery();
             List<Book> result = new ArrayList<>();
 
@@ -267,13 +267,27 @@ public class BorrowManagerImpl implements BorrowManager {
 
             return result;
         } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
             throw new FailureException("error when listing all borrowed books ", ex);
         }
     }
 
     @Override
     public boolean isBorrowed(Book book) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement st = connection.prepareStatement(
+                        "SELECT RETURNED FROM BORROW WHERE BOOK_ID=? ORDER BY ID DESC")) {
+            st.setLong(1, book.getId());
+           ResultSet rs = st.executeQuery();
+           if(rs.next()){
+               return !rs.getBoolean("RETURNED");
+           }else{
+               return false;
+           }
+            
+        } catch (SQLException ex) {
+            throw new FailureException("error when listing all borrowed books ", ex);
+        }
     }
 
     @Override

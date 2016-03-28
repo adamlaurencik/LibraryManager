@@ -226,8 +226,8 @@ public class BorrowManagerImplTest {
 
         assertEquals(manager.findBorrowById(id).getBook(), book);
         assertEquals(manager.findBorrowById(id).getCustomer(), customer1);
-        assertEquals(manager.findBorrowById(id).getReturnDate(), LocalDate.ofYearDay(2000, 9));
-        assertEquals(manager.findBorrowById(id).getBorrowDate(), LocalDate.ofYearDay(2000, 10));
+        assertEquals(manager.findBorrowById(id).getBorrowDate(), LocalDate.ofYearDay(2000, 9));
+        assertEquals(manager.findBorrowById(id).getReturnDate(), LocalDate.ofYearDay(2000, 10));
 
         Customer customer = new Customer();
         customer.setAddress("Address");
@@ -243,8 +243,8 @@ public class BorrowManagerImplTest {
 
         assertEquals(manager.findBorrowById(id).getBook(), book);
         assertEquals(manager.findBorrowById(id).getCustomer(), customer);
-        assertEquals(manager.findBorrowById(id).getReturnDate(), LocalDate.ofYearDay(2000, 9));
-        assertEquals(manager.findBorrowById(id).getBorrowDate(), LocalDate.ofYearDay(2000, 10));
+        assertEquals(manager.findBorrowById(id).getReturnDate(), LocalDate.ofYearDay(2000, 10));
+        assertEquals(manager.findBorrowById(id).getBorrowDate(), LocalDate.ofYearDay(2000, 9));
 
 
         borrow.setBorrowDate(LocalDate.ofYearDay(2000, 1) );
@@ -254,8 +254,8 @@ public class BorrowManagerImplTest {
 
         assertEquals(manager.findBorrowById(id).getBook(), book);
         assertEquals(manager.findBorrowById(id).getCustomer(), customer);
-        assertEquals(manager.findBorrowById(id).getReturnDate(), LocalDate.ofYearDay(2000, 1));
-        assertEquals(manager.findBorrowById(id).getBorrowDate(), LocalDate.ofYearDay(2000, 10));
+        assertEquals(manager.findBorrowById(id).getReturnDate(), LocalDate.ofYearDay(2000, 10));
+        assertEquals(manager.findBorrowById(id).getBorrowDate(), LocalDate.ofYearDay(2000, 1));
 
 
         borrow.setReturnDate(LocalDate.ofYearDay(2000, 12));
@@ -265,8 +265,8 @@ public class BorrowManagerImplTest {
 
         assertEquals(manager.findBorrowById(id).getBook(), book);
         assertEquals(manager.findBorrowById(id).getCustomer(), customer);
-        assertEquals(manager.findBorrowById(id).getReturnDate(), LocalDate.ofYearDay(2000, 1));
-        assertEquals(manager.findBorrowById(id).getBorrowDate(), LocalDate.ofYearDay(2000, 12));
+        assertEquals(manager.findBorrowById(id).getReturnDate(), LocalDate.ofYearDay(2000, 12));
+        assertEquals(manager.findBorrowById(id).getBorrowDate(), LocalDate.ofYearDay(2000, 1));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -476,6 +476,7 @@ public class BorrowManagerImplTest {
         assertEquals(manager.listBorrowedBooks().size(), 0);
 
         borrow.setReturned(false);
+        manager.updateBorrow(borrow);
         assertEquals(manager.listBorrowedBooks().size(), 1);
         assertEquals(book1, manager.listBorrowedBooks().get(0));
 
@@ -489,7 +490,9 @@ public class BorrowManagerImplTest {
         customer.setName("name");
         customer.setPhone("phone");
         customer.setSurname("surname");
-
+        bookManager.createBook(book);
+        customerManager.createCustomer(customer);
+        
         Borrow borrow1 = newBorrow(book, customer, LocalDate.ofYearDay(2000, 2), LocalDate.ofYearDay(2000, 12));
         manager.createBorrow(borrow1);
         assertEquals(manager.listBorrowedBooks().size(), 2);
@@ -577,6 +580,27 @@ public class BorrowManagerImplTest {
         returned.sort(idComparator);
        
         assertEquals(expected, returned);
+    }
+    
+    @Test
+    public void isBorrowed(){
+        bookManager.createBook(book1);
+        customerManager.createCustomer(customer1);
+ 
+        assertFalse(manager.isBorrowed(book1));
+        
+        Borrow borrow=newBorrow(book1, customer1, LocalDate.ofYearDay(2000, 1), LocalDate.ofYearDay(2000, 31));
+        manager.createBorrow(borrow);
+        
+        assertTrue(manager.isBorrowed(book1));
+        
+        borrow.setReturned(true);
+        
+        manager.updateBorrow(borrow);
+        
+        assertFalse(manager.isBorrowed(book1));
+        
+        
     }
     
     private static Comparator<Borrow> idComparator = new Comparator<Borrow>() {
