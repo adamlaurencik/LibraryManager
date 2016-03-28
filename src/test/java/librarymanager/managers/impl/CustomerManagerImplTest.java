@@ -193,22 +193,22 @@ public class CustomerManagerImplTest {
        
        assertTrue(manager.listAllCustomers().size()==1);
        
-       assertEquals(customer1, manager.listAllCustomers().get(0));
-       
-       Customer customer2 = newCustomer("Milan", "Fero", "Praha", "0320");
-       manager.createCustomer(customer2);
-       
-       assertTrue(manager.listAllCustomers().size()==2);
-       
-       List<Customer> expected=new ArrayList<>();
-       expected.add(customer1);
-       expected.add(customer2);
+        assertEquals(customer1, manager.listAllCustomers().get(0));
+
+        Customer customer2 = newCustomer("Milan", "Fero", "Praha", "0320");
+        manager.createCustomer(customer2);
+
+        assertTrue(manager.listAllCustomers().size() == 2);
+
+        List<Customer> expected = new ArrayList<>();
+        expected.add(customer1);
+        expected.add(customer2);
         expected.sort(idComparator);
-       
-      List<Customer> returned = manager.listAllCustomers();
-      returned.sort(idComparator);
-      
-      assertEquals(expected, returned);
+
+        List<Customer> returned = manager.listAllCustomers();
+        returned.sort(idComparator);
+
+        assertEquals(expected, returned);
     }
     
     @Test

@@ -71,7 +71,6 @@ public class BookManagerImplTest {
 
         assertEquals(book, createdBook);
         assertThat(createdBook, is(not(sameInstance(book))));
-
     }
 
     @Test
