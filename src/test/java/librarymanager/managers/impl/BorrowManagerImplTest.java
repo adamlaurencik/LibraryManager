@@ -123,7 +123,7 @@ public class BorrowManagerImplTest {
         id = customer1.getId();
         borrow.setCustomer(customerManager.findCustomerById(id));
 
-        borrow.setBorrowDate(LocalDate.now());
+        borrow.setBorrowDate(LocalDate.ofYearDay(2000, 9));
         borrow.setReturnDate(borrow.getBorrowDate().plusMonths(1));
         borrow.setReturned(false);
 
@@ -370,8 +370,8 @@ public class BorrowManagerImplTest {
         Borrow borrow1 = new Borrow();
         borrow1.setBook(book1);
         borrow1.setCustomer(customer1);
-        borrow1.setBorrowDate(LocalDate.now());
-        borrow1.setReturnDate(LocalDate.now().plusMonths(1));
+        borrow1.setBorrowDate(LocalDate.ofYearDay(2000, 9));
+        borrow1.setReturnDate(LocalDate.ofYearDay(2000, 9).plusMonths(1));
         borrow1.setReturned(false);
 
         Book book2 = new Book();
@@ -390,8 +390,8 @@ public class BorrowManagerImplTest {
         Borrow borrow2 = new Borrow();
         borrow2.setBook(book2);
         borrow2.setCustomer(customer2);
-        borrow2.setBorrowDate(LocalDate.now());
-        borrow2.setReturnDate(LocalDate.now().plusMonths(1));
+        borrow2.setBorrowDate(LocalDate.ofYearDay(2000, 9));
+        borrow2.setReturnDate(LocalDate.ofYearDay(2000, 9).plusMonths(1));
         borrow2.setReturned(false);
 
         manager.createBorrow(borrow1);
